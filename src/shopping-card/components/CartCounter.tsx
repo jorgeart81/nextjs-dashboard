@@ -7,9 +7,15 @@ interface Props {
 
 export const CartCounter = ({ value = 0 }: Props) => {
   const [count, setCount] = useState(value);
+  const [minusButtonDisabled, setMinusButtonDisabled] = useState(false);
 
   const handleClick = (value: number) => {
-    if (count + value < 0) return;
+    console.log({ count }, count + value, count + value <= 0);
+    const isLessThanZero = count + value <= 0;
+    setMinusButtonDisabled(isLessThanZero);
+    // if (isLessThanZero) {
+    //   return;
+    // }
     setCount(prevCount => prevCount + value);
   };
   return (
@@ -23,6 +29,7 @@ export const CartCounter = ({ value = 0 }: Props) => {
           +1
         </button>
         <button
+          disabled={minusButtonDisabled}
           onClick={() => handleClick(-1)}
           className='flex items-center justify-center p-2 rounded-xl bg-gray-900 text-white hover:bg-gray-600 transition-all w-[6.25rem]'>
           -1
