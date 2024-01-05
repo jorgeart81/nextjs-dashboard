@@ -1,2 +1,2 @@
-export * from './SideItem';
+export * from './SidebarMenuItem';
 export * from './Sidebar';
