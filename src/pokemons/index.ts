@@ -4,3 +4,4 @@ export type { PokemonResponse } from './interfaces/pokemon-response';
 export type { PokemonsResponse } from './interfaces/pokemons-response';
 export type { SimplePokemon } from './interfaces/simple-pokemon';
 
+export * from './services/pokeApi';
