@@ -13,13 +13,25 @@ interface Props {
   value?: number;
 }
 
+const getApiCounter = async () => {
+  const data: { count: number } = await fetch('/api/counter').then(res =>
+    res.json()
+  );
+
+  return data;
+};
+
 export const CartCounter = ({ value }: Props) => {
   const count = useAppSelector(state => state.counter.count);
   const dispatch = useDispatch();
 
+  // useEffect(() => {
+  //   if (value) dispatch(initCounterState(value));
+  // }, [dispatch, value]);
+
   useEffect(() => {
-    if (value) dispatch(initCounterState(value));
-  }, [dispatch, value]);
+    getApiCounter().then(({ count }) => dispatch(initCounterState(count)));
+  }, [dispatch]);
 
   return (
     <>
