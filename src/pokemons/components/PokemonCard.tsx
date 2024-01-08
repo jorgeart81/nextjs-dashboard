@@ -1,7 +1,11 @@
-import Link from 'next/link';
+'use client';
 import Image from 'next/image';
+import Link from 'next/link';
 
-import { IoHeartOutline } from 'react-icons/io5';
+import { useAppDispatch, useAppSelector } from '@/store';
+
+import { toogleFavorite } from '@/store/pokemos/pokemons';
+import { IoHeart, IoHeartOutline } from 'react-icons/io5';
 import { SimplePokemon } from '..';
 
 interface Props {
@@ -10,6 +14,13 @@ interface Props {
 
 export const PokemonCard = ({ pokemon }: Props) => {
   const { id, name } = pokemon;
+
+  const isFavorite = useAppSelector(state => !!state.pokemons[id ?? '']);
+  const dispatch = useAppDispatch();
+
+  const onToogle = () => {
+    dispatch(toogleFavorite(pokemon));
+  };
 
   return (
     pokemon?.id && (
@@ -37,17 +48,27 @@ export const PokemonCard = ({ pokemon }: Props) => {
               </div>
             </div>
             <div className='border-b'>
-              <Link href='#' className='px-4 py-2 hover:bg-gray-100 flex'>
+              <div
+                onClick={onToogle}
+                className='px-4 py-2 hover:bg-gray-100 flex cursor-pointer'>
                 <div className='text-red-600'>
-                  <IoHeartOutline className='size-6' />
+                  {isFavorite ? (
+                    <IoHeart className='size-6' />
+                  ) : (
+                    <IoHeartOutline className='size-6' />
+                  )}
                 </div>
                 <div className='pl-3'>
                   <p className='text-sm font-medium text-gray-800 leading-none'>
-                    No es favorito
+                    {isFavorite ? 'Es favorito' : 'No es favorito'}
                   </p>
-                  <p className='text-xs text-gray-500'>View your campaigns</p>
+                  <p className='text-xs text-gray-500'>
+                    {isFavorite
+                      ? ' Click para quitar favorito'
+                      : 'Click para agregar favorito'}
+                  </p>
                 </div>
-              </Link>
+              </div>
             </div>
           </div>
         </div>

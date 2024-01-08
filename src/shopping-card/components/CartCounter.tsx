@@ -1,8 +1,7 @@
 'use client';
 import { useEffect } from 'react';
-import { useDispatch } from 'react-redux';
 
-import { useAppSelector } from '@/store';
+import { useAppDispatch, useAppSelector } from '@/store';
 import {
   decrement,
   increment,
@@ -23,7 +22,7 @@ const getApiCounter = async () => {
 
 export const CartCounter = ({ value }: Props) => {
   const count = useAppSelector(state => state.counter.count);
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
 
   // useEffect(() => {
   //   if (value) dispatch(initCounterState(value));
