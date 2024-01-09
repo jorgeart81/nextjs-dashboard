@@ -1,4 +1,3 @@
-
 import { SimplePokemon } from '..';
 import { PokemonCard } from './PokemonCard';
 

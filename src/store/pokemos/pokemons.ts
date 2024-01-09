@@ -4,29 +4,41 @@ import { SimplePokemon } from '@/pokemons';
 import { LocalStorage } from '@/config';
 
 interface PokemosState {
-  [key: string]: SimplePokemon;
+  favorites: { [key: string]: SimplePokemon };
 }
 
-const getFavorites = () =>
-  JSON.parse(localStorage.getItem(LocalStorage.FAVORITE_POKEMONS) ?? '{}');
+JSON.parse(localStorage.getItem(LocalStorage.FAVORITE_POKEMONS) ?? '{}');
 
 const initialState: PokemosState = {
-  ...getFavorites(),
+  favorites: {},
 };
 
 const pokemonsSlice = createSlice({
   name: 'pokemons',
   initialState,
   reducers: {
+    setFavoritePokemons: (
+      state,
+      action: PayloadAction<{ [key: string]: SimplePokemon }>
+    ) => {
+      state.favorites = action.payload;
+    },
     toogleFavorite: (state, action: PayloadAction<SimplePokemon>) => {
       const { id } = action.payload;
       if (id) {
-        !!state[id] ? delete state[id] : (state[id] = action.payload);
+        !!state.favorites[id]
+          ? delete state.favorites[id]
+          : (state.favorites[id] = action.payload);
       }
+
+      localStorage.setItem(
+        LocalStorage.FAVORITE_POKEMONS,
+        JSON.stringify(state.favorites)
+      );
     },
   },
 });
 
-export const { toogleFavorite } = pokemonsSlice.actions;
+export const { setFavoritePokemons, toogleFavorite } = pokemonsSlice.actions;
 
 export default pokemonsSlice.reducer;
